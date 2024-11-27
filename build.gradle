@@ -1,21 +1,30 @@
 plugins {
     id "groovy"
     id "java-gradle-plugin"
+    id "maven-publish"
 }
 
-group = "com.versionbump"
-version = "1.0.0"
+group = "com.andrzejpiontek"
+version = "0.0.1"
 
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 
 dependencies {
-    implementation localGroovy()
-    implementation gradleApi()
-    implementation("org.apache.groovy:groovy:4.0.14")
-    testImplementation platform("org.junit:junit-bom:5.10.0")
-    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.spockframework:spock-core:2.4-groovy-4.0") {
+        exclude module: "groovy-all"
+    }
+}
+
+gradlePlugin {
+    plugins {
+        versionBump {
+            id = "com.andrzejpiontek.version-bump"
+            implementationClass = "com.andrzejpiontek.plugins.VersionBumpPlugin"
+        }
+    }
 }
 
 test {
